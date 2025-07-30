@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>문제풀이</title>
+  <script src="https://kit.fontawesome.com/258cb932bc.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style_lic.css" />
+</head>
+<body>
+
+<!-- ✅ 상단바 -->
+<section id="top-bar">
+  <div class="container">
+    <nav class="menu-line">
+      <a href="#" id="home-btn">홈</a>
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle" id="subject-label">과목 ▼</a>
+        <ul class="dropdown-menu" id="subject-menu">
+          <li><a href="#" class="subject-option" data-value="민법">민법</a></li>
+          <li><a href="#" class="subject-option" data-value="부동산학개론">부동산학개론</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle" id="type-label">유형 ▼</a>
+        <ul class="dropdown-menu" id="type-menu">
+          <li><a href="#" class="type-option" data-value="기출문제풀이">기출문제풀이</a></li>
+          <li><a href="#" class="type-option" data-value="OX퀴즈">OX퀴즈</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle" id="round-label">회차 ▼</a>
+        <ul class="dropdown-menu" id="round-menu">
+          <li><label><input type="checkbox" value="전체"> 전체</label></li>
+          <li><label><input type="checkbox" value="36"> 36회차</label></li>
+          <li><label><input type="checkbox" value="35"> 35회차</label></li>
+          <li><label><input type="checkbox" value="34"> 34회차</label></li>
+          <li><label><input type="checkbox" value="33"> 33회차</label></li>
+          <li><label><input type="checkbox" value="32"> 32회차</label></li>
+          <li><label><input type="checkbox" value="31"> 31회차</label></li>
+          <li><label><input type="checkbox" value="30"> 30회차</label></li>
+          <li><label><input type="checkbox" value="29"> 29회차</label></li>
+          <li><label><input type="checkbox" value="28"> 28회차</label></li>
+          <li><label><input type="checkbox" value="27"> 27회차</label></li>
+          <li style="text-align:center; font-weight:bold; color:#1e3932; cursor:pointer;" id="round-confirm">확인</li>
+          <li style="text-align:center; font-weight:bold; color:red; cursor:pointer;" id="round-reset">초기화</li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle" id="unit-label">목차 ▼</a>
+        <ul class="dropdown-menu" id="unit-menu">
+          <li><a href="#" class="unit-option" data-value="전체 순서대로">전체 순서대로</a></li>
+          <li><a href="#" class="unit-option" data-value="01. 부동산의 개념">01. 부동산의 개념</a></li>
+        </ul>
+      </div>
+      <a href="#" id="number-label">진행상황</a>
+      <a href="#" id="start-btn">문제풀기▷▷</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ✅ 하단바 -->
+<section id="second-bar">
+  <div class="container">
+    <nav class="menu-line">
+      <a href="#">+</a><a href="#">-</a><a href="#"><i class="fa-solid fa-gear"></i></a>
+      <a href="#">◀</a><a href="#">문제</a><a href="#">해설</a><a href="#">▶</a>
+      <label class="wrong-check"><input type="checkbox" id="wrong-checkbox"> 오답</label>
+      <a href="#" id="bottom-number-label">진행상황</a>
+      <a href="#" id="stop-btn">풀이멈춤□</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ✅ 메인 리스트 -->
+<main id="main">
+  <div class="container">
+    <h3 style="margin-bottom:20px; color:#1e3932;">진행중인 문제풀이</h3>
+    <div class="study-list">
+      <p>[부동산학개론] [기출문제] [35회차] [전체 순서대로] [6/40] <a href="#" class="start-btn">바로가기▷▷</a></p>
+      <p>[민법] [기출문제] [다중선택] [3...] [17/42] <a href="#" class="start-btn">바로가기▷▷</a></p>
+      <p>[개론] [OX퀴즈] [회차] [목차] [번호] <a href="#" class="start-btn disabled-btn">바로가기▷▷</a></p>
+      <p>[민법] [OX퀴즈] [29회차] [전체 순서대로] [37/200] <a href="#" class="start-btn">바로가기▷▷</a></p>
+    </div>
+  </div>
+</main>
+
+<!-- ✅ 문제 영역 -->
+<section id="question-area" style="display:none;">
+  <div class="container">
+    <h3 style="color:#1e3932; margin-bottom:20px;">문제</h3>
+    <p style="margin-bottom:20px;">
+      1. 토지의 특성에 관한 설명으로 <span class="clickable-word">틀린</span> 것은?
+    </p>
+    <ul id="choices">
+      <li>① 용도의 다양성으로 인해 두 개 이상의 용도가 경합할 수 없다.</li>
+      <li>② 부증성으로 인해 토지 공급이 어렵다.</li>
+      <li>③ 부동성으로 인해 외부효과가 나타난다.</li>
+      <li>④ 영속성으로 인해 재생산이론과 물리적 감가상각이 적용되지 않는다.</li>
+      <li>⑤ 개별성으로 인해 완전 대체가 어렵다.</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+// ✅ 기존 기능: 회차 선택 관련
+let confirmedRounds = [];
+
+document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const parent = btn.closest('.dropdown');
+    document.querySelectorAll('.dropdown').forEach(drop => {
+      if (drop !== parent) drop.classList.remove('active');
+    });
+    parent.classList.toggle('active');
+  });
+});
+
+document.querySelectorAll('.subject-option, .type-option, .unit-option').forEach(option => {
+  option.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = option.closest('ul').id.replace('-menu', '-label');
+    document.getElementById(targetId).textContent = option.dataset.value + ' ▼';
+    option.closest('.dropdown').classList.remove('active');
+    updateCounter();
+  });
+});
+
+const allCheckbox = document.querySelector('#round-menu input[value="전체"]');
+const roundCheckboxes = document.querySelectorAll('#round-menu input[type="checkbox"]:not([value="전체"])');
+
+allCheckbox.addEventListener('change', () => {
+  const isChecked = allCheckbox.checked;
+  roundCheckboxes.forEach(cb => cb.checked = isChecked);
+});
+
+roundCheckboxes.forEach(cb => {
+  cb.addEventListener('change', () => {
+    const allChecked = [...roundCheckboxes].every(item => item.checked);
+    allCheckbox.checked = allChecked;
+  });
+});
+
+document.getElementById('round-confirm').addEventListener('click', (e) => {
+  e.preventDefault();
+  const checked = document.querySelectorAll('#round-menu input[type="checkbox"]:checked');
+  confirmedRounds = [...checked].map(cb => cb.value);
+
+  document.getElementById('round-label').textContent =
+    confirmedRounds.length === 0 ? '회차 ▼' :
+    confirmedRounds.length === 1 ? confirmedRounds[0] + ' ▼' : '다중선택 ▼';
+
+  updateCounter();
+  document.getElementById('round-menu').closest('.dropdown').classList.remove('active');
+});
+
+document.getElementById('round-reset').addEventListener('click', () => {
+  confirmedRounds = [];
+  document.querySelectorAll('#round-menu input').forEach(cb => cb.checked = false);
+  document.getElementById('round-label').textContent = '회차 ▼';
+  updateCounter();
+});
+
+function updateCounter() {
+  const unit = document.getElementById('unit-label').textContent;
+  const topNumberLabel = document.getElementById('number-label');
+  const bottomNumberLabel = document.getElementById('bottom-number-label');
+
+  if (unit.includes('전체') && confirmedRounds.length > 0) {
+    const total = 40;
+    const displayText = `1/${total}`;
+    topNumberLabel.textContent = displayText;
+    bottomNumberLabel.textContent = displayText;
+  } else {
+    topNumberLabel.textContent = '번호';
+    bottomNumberLabel.textContent = '번호';
+  }
+}
+
+document.getElementById('start-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('top-bar').style.display = 'none';
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('question-area').style.display = 'block';
+});
+
+document.getElementById('stop-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('top-bar').style.display = 'block';
+  document.getElementById('main').style.display = 'block';
+  document.getElementById('question-area').style.display = 'none';
+});
+
+// ✅ 새 기능: "틀린" 클릭 → X 표시
+document.querySelector('.clickable-word').addEventListener('click', function() {
+  this.classList.toggle('marked');
+});
+
+// ✅ 보기 클릭 → 회색 + O 표시 (토글)
+document.querySelectorAll('#choices li').forEach(item => {
+  item.addEventListener('click', function() {
+    if (this.classList.contains('disabled-choice')) {
+      this.classList.remove('disabled-choice');
+      this.querySelector('.mark-o')?.remove();
+    } else {
+      this.classList.add('disabled-choice');
+      const mark = document.createElement('span');
+      mark.textContent = ' O';
+      mark.classList.add('mark-o');
+      this.appendChild(mark);
+    }
+  });
+});
+</script>
+</body>
+</html>
