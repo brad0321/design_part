@@ -24,35 +24,125 @@
   font-weight: 600;
   gap: 20px;
 }
+
 .menu-line a {
   color: #212121;
   text-decoration: none;
   padding: 8px 0;
 }
+
 .menu-line a:hover {
   color: var(--hover-color);
 }
 
-#choices li {
-  list-style: none;
-  margin: 10px 0;
-  font-size: 16px;
-}
-#choices input[type="radio"] {
-  margin-right: 10px;
+.wrong-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
 }
 
-.clickable-word.marked-x::after {
+.wrong-check input {
+  width: 16px;
+  height: 16px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  list-style: none;
+  z-index: 1000;
+  width: 240px;
+}
+
+.dropdown-menu li {
+  margin-bottom: 8px;
+}
+
+.dropdown-menu a {
+  display: block;
+  color: #333;
+  font-size: 14px;
+  padding: 4px 6px;
+}
+
+.dropdown-menu a:hover {
+  background: #f6f5ef;
+  color: var(--main-color);
+}
+
+.dropdown.active .dropdown-menu {
+  display: block;
+}
+
+#top-bar {
+  background: #f6f5ef;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#second-bar {
+  background: #fff;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#main {
+  padding: 30px 0;
+}
+
+.study-list p {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.disabled-btn {
+  color: gray;
+  pointer-events: none;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* ✅ "틀린" 클릭 시 X 표시 */
+.clickable-word {
+  position: relative;
+  color: #1e3932;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.clickable-word.marked::after {
   content: "X";
   color: red;
-  font-weight: bold;
-  margin-left: 6px;
+  font-size: 18px;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
-.clickable-word.marked-o::after {
-  content: "O";
-  color: green;
-  font-weight: bold;
-  margin-left: 6px;
+
+/* ✅ 보기 소거 → 회색 + O */
+#choices li {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+#choices li.disabled-choice {
+  color: #999;
 }
 
 .mark-o {
@@ -60,8 +150,5 @@
   font-weight: bold;
   margin-left: 6px;
 }
-.mark-x {
-  color: red;
-  font-weight: bold;
-  margin-left: 6px;
-}
+
+
