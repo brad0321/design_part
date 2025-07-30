@@ -65,7 +65,7 @@
   <div class="container">
     <nav class="menu-line">
       <a href="#">+</a><a href="#">-</a><a href="#"><i class="fa-solid fa-gear"></i></a>
-      <a href="#">◀</a><a href="#">문제</a><a href="#">해설</a><a href="#">▶</a>
+      <a href="#" id="prev-btn">◀</a><a href="#">문제</a><a href="#">해설</a><a href="#" id="next-btn">▶</a>
       <label class="wrong-check"><input type="checkbox" id="wrong-checkbox"> 오답</label>
       <a href="#" id="bottom-number-label">진행상황</a>
       <a href="#" id="stop-btn">풀이멈춤□</a>
@@ -90,23 +90,119 @@
 <section id="question-area" style="display:none;">
   <div class="container">
     <h3 style="color:#1e3932; margin-bottom:20px;">문제</h3>
-    <p style="margin-bottom:20px;">
-      1. 토지의 특성에 관한 설명으로 <span class="clickable-word">틀린</span> 것은?
-    </p>
-    <ul id="choices">
-      <li>① 용도의 다양성으로 인해 두 개 이상의 용도가 경합할 수 없다.</li>
-      <li>② 부증성으로 인해 토지 공급이 어렵다.</li>
-      <li>③ 부동성으로 인해 외부효과가 나타난다.</li>
-      <li>④ 영속성으로 인해 재생산이론과 물리적 감가상각이 적용되지 않는다.</li>
-      <li>⑤ 개별성으로 인해 완전 대체가 어렵다.</li>
-    </ul>
+    <p id="question-text" style="margin-bottom:20px;"></p>
+    <ul id="choices"></ul>
   </div>
 </section>
 
 <script>
-// ✅ 기존 기능: 회차 선택 관련
-let confirmedRounds = [];
+const questions = [
+  {
+    text: '1. 토지의 특성에 관한 설명으로 <span class="clickable-word">틀린</span> 것은?',
+    choices: [
+      '용도의 다양성으로 인해 두 개 이상의 용도가 경합할 수 없다.',
+      '부증성으로 인해 토지 공급이 어렵다.',
+      '부동성으로 인해 외부효과가 나타난다.',
+      '영속성으로 인해 재생산이론과 물리적 감가상각이 적용되지 않는다.',
+      '개별성으로 인해 완전 대체가 어렵다.'
+    ]
+  },
+  {
+    text: '2. 거미집모형에 관한 설명으로 옳은 것은?',
+    choices: [
+      '수요의 가격탄력성이 공급의 가격탄력성보다 크면 발산형이다.',
+      '가격이 변동하면 수요와 공급은 모두 즉각적으로 반응한다는 가정을 전제하고 있다.',
+      '수요곡선의 기울기 절댓값이 공급곡선의 기울기 절댓값보다 작으면 수렴형이다.',
+      '수요와 공급의 동시적 관계로 가정하여 균형의 변화를 정태적으로 분석한 모형이다.',
+      '공급자는 현재와 미래의 가격을 동시에 고려해 미래의 공급을 결정한다는 가정을 전제하고 있다.'
+    ]
+  }
+];
 
+let currentIndex = 0;
+let allowChoiceClick = false;
+
+// ✅ 문제 로드 함수
+function loadQuestion(index) {
+  const question = questions[index];
+  document.getElementById('question-text').innerHTML = question.text;
+
+  const choicesList = document.getElementById('choices');
+  choicesList.innerHTML = '';
+
+  question.choices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+    choicesList.appendChild(li);
+  });
+
+  bindQuestionEvents();
+}
+
+// ✅ 이벤트 바인딩
+function bindQuestionEvents() {
+  allowChoiceClick = false; // 초기화
+
+  const clickableWord = document.querySelector('.clickable-word');
+  if (clickableWord) {
+    clickableWord.addEventListener('click', () => {
+      clickableWord.classList.toggle('marked');
+      allowChoiceClick = clickableWord.classList.contains('marked');
+    });
+  }
+
+  document.querySelectorAll('#choices li').forEach(item => {
+    item.addEventListener('click', function() {
+      if (!allowChoiceClick) return; // "틀린" 클릭 전이면 동작 X
+
+      if (this.classList.contains('disabled-choice')) {
+        this.classList.remove('disabled-choice');
+        this.querySelector('.mark-o')?.remove();
+      } else {
+        this.classList.add('disabled-choice');
+        const mark = document.createElement('span');
+        mark.textContent = ' O';
+        mark.classList.add('mark-o');
+        this.appendChild(mark);
+      }
+    });
+  });
+}
+
+// ✅ 네비게이션 버튼
+document.getElementById('next-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (currentIndex < questions.length - 1) {
+    currentIndex++;
+    loadQuestion(currentIndex);
+  }
+});
+
+document.getElementById('prev-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (currentIndex > 0) {
+    currentIndex--;
+    loadQuestion(currentIndex);
+  }
+});
+
+// ✅ 기존 기능 유지
+document.getElementById('start-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('top-bar').style.display = 'none';
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('question-area').style.display = 'block';
+  loadQuestion(currentIndex);
+});
+
+document.getElementById('stop-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('top-bar').style.display = 'block';
+  document.getElementById('main').style.display = 'block';
+  document.getElementById('question-area').style.display = 'none';
+});
+
+// ✅ 드롭다운 열고 닫기 기능
 document.querySelectorAll('.dropdown-toggle').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -118,16 +214,17 @@ document.querySelectorAll('.dropdown-toggle').forEach(btn => {
   });
 });
 
+// ✅ 옵션 클릭 시 라벨 변경
 document.querySelectorAll('.subject-option, .type-option, .unit-option').forEach(option => {
   option.addEventListener('click', (e) => {
     e.preventDefault();
     const targetId = option.closest('ul').id.replace('-menu', '-label');
     document.getElementById(targetId).textContent = option.dataset.value + ' ▼';
     option.closest('.dropdown').classList.remove('active');
-    updateCounter();
   });
 });
 
+// ✅ 회차 메뉴 체크박스 동기화
 const allCheckbox = document.querySelector('#round-menu input[value="전체"]');
 const roundCheckboxes = document.querySelectorAll('#round-menu input[type="checkbox"]:not([value="전체"])');
 
@@ -143,76 +240,25 @@ roundCheckboxes.forEach(cb => {
   });
 });
 
+// ✅ 회차 메뉴 확인 버튼
 document.getElementById('round-confirm').addEventListener('click', (e) => {
   e.preventDefault();
   const checked = document.querySelectorAll('#round-menu input[type="checkbox"]:checked');
-  confirmedRounds = [...checked].map(cb => cb.value);
+  const confirmedRounds = [...checked].map(cb => cb.value);
 
   document.getElementById('round-label').textContent =
     confirmedRounds.length === 0 ? '회차 ▼' :
     confirmedRounds.length === 1 ? confirmedRounds[0] + ' ▼' : '다중선택 ▼';
 
-  updateCounter();
   document.getElementById('round-menu').closest('.dropdown').classList.remove('active');
 });
 
+// ✅ 회차 메뉴 초기화 버튼
 document.getElementById('round-reset').addEventListener('click', () => {
-  confirmedRounds = [];
   document.querySelectorAll('#round-menu input').forEach(cb => cb.checked = false);
   document.getElementById('round-label').textContent = '회차 ▼';
-  updateCounter();
 });
 
-function updateCounter() {
-  const unit = document.getElementById('unit-label').textContent;
-  const topNumberLabel = document.getElementById('number-label');
-  const bottomNumberLabel = document.getElementById('bottom-number-label');
-
-  if (unit.includes('전체') && confirmedRounds.length > 0) {
-    const total = 40;
-    const displayText = `1/${total}`;
-    topNumberLabel.textContent = displayText;
-    bottomNumberLabel.textContent = displayText;
-  } else {
-    topNumberLabel.textContent = '번호';
-    bottomNumberLabel.textContent = '번호';
-  }
-}
-
-document.getElementById('start-btn').addEventListener('click', (e) => {
-  e.preventDefault();
-  document.getElementById('top-bar').style.display = 'none';
-  document.getElementById('main').style.display = 'none';
-  document.getElementById('question-area').style.display = 'block';
-});
-
-document.getElementById('stop-btn').addEventListener('click', (e) => {
-  e.preventDefault();
-  document.getElementById('top-bar').style.display = 'block';
-  document.getElementById('main').style.display = 'block';
-  document.getElementById('question-area').style.display = 'none';
-});
-
-// ✅ 새 기능: "틀린" 클릭 → X 표시
-document.querySelector('.clickable-word').addEventListener('click', function() {
-  this.classList.toggle('marked');
-});
-
-// ✅ 보기 클릭 → 회색 + O 표시 (토글)
-document.querySelectorAll('#choices li').forEach(item => {
-  item.addEventListener('click', function() {
-    if (this.classList.contains('disabled-choice')) {
-      this.classList.remove('disabled-choice');
-      this.querySelector('.mark-o')?.remove();
-    } else {
-      this.classList.add('disabled-choice');
-      const mark = document.createElement('span');
-      mark.textContent = ' O';
-      mark.classList.add('mark-o');
-      this.appendChild(mark);
-    }
-  });
-});
 </script>
 </body>
 </html>
